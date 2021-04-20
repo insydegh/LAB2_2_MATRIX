@@ -19,7 +19,7 @@ const string DIFFERENT_DIMS = "Impossible to make this operation: Matrices have 
 template <typename T>
 class TriangleMatrix {
 private:
-    ArraySequence<T>* rows; //Every row is an array sequence
+    Sequence<T>** rows; //Every row is an array sequence
     int dimension; // size of matrix
 public:
 
@@ -28,17 +28,15 @@ public:
     }
     //Creation of matrix with size n filled with zeros
     TriangleMatrix(int size) :dimension(size) {
-
-        rows = new ArraySequence<T>[size];
-        for (int i=0; i<size; i++) {
-            rows[i] =  ArraySequence<T>(size);
+        rows =(Sequence<T>**) new ArraySequence<T>*[size];
+        for (int i =0; i<size; i++) {
+            rows[i] = new ArraySequence<T>(size);
         }
         for (int i = 0; i<size; i++) {
             for (int j=0; j<size; j++) {
                 this->SetElement(i,j,0);
             }
         }
-
     }
 
     TriangleMatrix(const TriangleMatrix<T>& matrix) {
@@ -75,11 +73,11 @@ public:
         return this->dimension;
     }
     //Get row
-    ArraySequence<T> GetRow(int index) {
+    Sequence<T>* GetRow(int index) {
         if (index<0 || index>=this->dimension) {
             throw out_of_range(INDEX_OUT_OF_RANGE);
         }
-        return this->rows[index];
+        return rows[index];
     }
 
     //Get element of matrix if we now it's coordinates. NOTICE! Rows and cols start with 0 index!!!!
@@ -87,15 +85,15 @@ public:
     T GetElement(int row, int col) {
         if (row<0 || col<0 || col>=dimension || row>=dimension) {throw out_of_range(INDEX_OUT_OF_RANGE);}
         //  ArraySequence<T> temp = this->GetRow(row);
-        return this->GetRow(row).Get(col);
+        return this->GetRow(row)->Get(col);
     }
 
     //Set element to matrix if we now it's coordinates and value. NOTICE! Rows and cols start with 0 index!!!!
 
     void SetElement(int row, int col, T item) {
         if (row<0 || col<0 || col>=dimension || row>=dimension) {throw out_of_range(INDEX_OUT_OF_RANGE);}
-        ArraySequence<T> temp = this->GetRow(row);
-        temp.Set(col, item);
+        Sequence<T>* temp = this->GetRow(row);
+        temp->Set(col, item);
         rows[row] = temp;
 
     }
@@ -132,7 +130,6 @@ public:
         return matrixR;
     }
 
-
     // matrixC = maatrixA * factor
     template<typename U>
     TriangleMatrix<T> operator*(U factor) {
@@ -160,10 +157,9 @@ public:
     }
 
 //Operator to get row.
-    ArraySequence<T> operator[](const int index) {
-        return rows[index];
+    Sequence<T>* operator[](const int index) {
+       return this->GetRow(index);
     }
-
 
     ~TriangleMatrix(){};
 

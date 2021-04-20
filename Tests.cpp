@@ -485,13 +485,13 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         // 0 4 5
         // 0 0 6
         // rows and cols with 0-2 index
-        REQUIRE(matrix[0][0] == 1);
-        REQUIRE(matrix[0][1] == 2);
-        REQUIRE(matrix[0][2] == 3);
-        REQUIRE(matrix[1][0] == 0);
-        REQUIRE(matrix[1][1] == 4);
-        REQUIRE(matrix[2][0] == 0);
-        REQUIRE(matrix[2][2] == 6);
+        REQUIRE(matrix.GetElement(0,0) == 1);
+        REQUIRE(matrix.GetElement(0,1) == 2);
+        REQUIRE(matrix.GetElement(0,2) == 3);
+        REQUIRE(matrix.GetElement(1,0) == 0);
+        REQUIRE(matrix.GetElement(1,1) == 4);
+        REQUIRE(matrix.GetElement(2,0) == 0);
+        REQUIRE(matrix.GetElement(2,2) == 6);
         REQUIRE(matrix.GetDim() == 3);
         TriangleMatrix<int> matrix1 = TriangleMatrix<int>(seq, 3, "lower");
         // Matrix will be created from 1,2,3,4,5,6 sequence and with lower flag elements will take their place like this
@@ -499,13 +499,13 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         // 2 3 0
         // 4 5 6
         // rows and cols with 0-2 index
-        REQUIRE(matrix1[0][0] == 1);
-        REQUIRE(matrix1[0][1] == 0);
-        REQUIRE(matrix1[0][2] == 0);
-        REQUIRE(matrix1[1][0] == 2);
-        REQUIRE(matrix1[1][1] == 3);
-        REQUIRE(matrix1[2][0] == 4);
-        REQUIRE(matrix1[2][2] == 6);
+        REQUIRE(matrix1.GetElement(0,0) == 1);
+        REQUIRE(matrix1.GetElement(0,1) == 0);
+        REQUIRE(matrix1.GetElement(0,2) == 0);
+        REQUIRE(matrix1.GetElement(1,0) == 2);
+        REQUIRE(matrix1.GetElement(1,1) == 3);
+        REQUIRE(matrix1.GetElement(2,0) == 4);
+        REQUIRE(matrix1.GetElement(2,2) == 6);
         REQUIRE(matrix1.GetDim() == 3);
 
     }
@@ -523,10 +523,10 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         //0 |1 0 0
         //1 |2 3 0
         //2 |4 5 6
-        ArraySequence<int> row2 = matrix.GetRow(2);
-        REQUIRE(row2[0] == 4);
-        REQUIRE(row2[1] == 5);
-        REQUIRE(row2[2] == 6);
+        Sequence<int>* row2 = matrix.GetRow(2);
+        REQUIRE(row2->Get(0) == 4);
+        REQUIRE(row2->Get(1) == 5);
+        REQUIRE(row2->Get(2) == 6);
         REQUIRE_THROWS(matrix.GetRow(3), INDEX_OUT_OF_RANGE);
         REQUIRE_THROWS(matrix.GetRow(-1), INDEX_OUT_OF_RANGE);
     }
@@ -556,7 +556,7 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         //1 |4 6  0
         //2 |8 10 12
         matrix.SetElement(2, 2, 12);
-        REQUIRE(matrix[2][2] == 12);
+        REQUIRE(matrix.GetElement(2,2) == 12);
         REQUIRE_THROWS(matrix.SetElement(-1, 2, 111), INDEX_OUT_OF_RANGE);
         REQUIRE_THROWS(matrix.SetElement(0, 3, 111), INDEX_OUT_OF_RANGE);
         REQUIRE_THROWS(matrix.SetElement(1, -1, 111), INDEX_OUT_OF_RANGE);
@@ -572,13 +572,13 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         //0 |2 0  0
         //1 |4 6  0
         //2 |8 10 12
-        REQUIRE(matrix1[0][0] == 2);
-        REQUIRE(matrix1[0][1] == 0);
-        REQUIRE(matrix1[0][2] == 0);
-        REQUIRE(matrix1[1][0] == 4);
-        REQUIRE(matrix1[1][1] == 6);
-        REQUIRE(matrix1[2][0] == 8);
-        REQUIRE(matrix1[2][2] == 12);
+        REQUIRE(matrix1.GetElement(0,0) == 2);
+        REQUIRE(matrix1.GetElement(0,1) == 0);
+        REQUIRE(matrix1.GetElement(0,2) == 0);
+        REQUIRE(matrix1.GetElement(1,0) == 4);
+        REQUIRE(matrix1.GetElement(1,1) == 6);
+        REQUIRE(matrix1.GetElement(2,0) == 8);
+        REQUIRE(matrix1.GetElement(2,2) == 12);
         REQUIRE(matrix1.GetDim() == 3);
     }
 
@@ -587,13 +587,13 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         TriangleMatrix<int> matrix = TriangleMatrix<int>(seq, 3, "lower");
         TriangleMatrix<int> matrix1 = matrix - matrix;
         //Result - Matrix only from 0
-        REQUIRE(matrix1[0][0] == 0);
-        REQUIRE(matrix1[0][1] == 0);
-        REQUIRE(matrix1[0][2] == 0);
-        REQUIRE(matrix1[1][0] == 0);
-        REQUIRE(matrix1[1][1] == 0);
-        REQUIRE(matrix1[2][0] == 0);
-        REQUIRE(matrix1[2][2] == 0);
+        REQUIRE(matrix1.GetElement(0,0) == 0);
+        REQUIRE(matrix1.GetElement(0,1) == 0);
+        REQUIRE(matrix1.GetElement(0,2) == 0);
+        REQUIRE(matrix1.GetElement(1,0) == 0);
+        REQUIRE(matrix1.GetElement(1,1) == 0);
+        REQUIRE(matrix1.GetElement(2,0) == 0);
+        REQUIRE(matrix1.GetElement(2,2) == 0);
         REQUIRE(matrix1.GetDim() == 3);
     }
 
@@ -605,13 +605,13 @@ TEST_CASE("Matrix fot int", "[Matrix_int]") {
         //0 |3  0   0
         //1 |6  9   0
         //2 |12 15 18
-        REQUIRE(matrix[0][0] == 3);
-        REQUIRE(matrix[0][1] == 0);
-        REQUIRE(matrix[0][2] == 0);
-        REQUIRE(matrix[1][0] == 6);
-        REQUIRE(matrix[1][1] == 9);
-        REQUIRE(matrix[2][0] == 12);
-        REQUIRE(matrix[2][2] == 18);
+        REQUIRE(matrix.GetElement(0,0) == 3);
+        REQUIRE(matrix.GetElement(0,1) == 0);
+        REQUIRE(matrix.GetElement(0,2) == 0);
+        REQUIRE(matrix.GetElement(1,0) == 6);
+        REQUIRE(matrix.GetElement(1,1) == 9);
+        REQUIRE(matrix.GetElement(2,0) == 12);
+        REQUIRE(matrix.GetElement(2,2) == 18);
         REQUIRE(matrix.GetDim() == 3);
 
     }SECTION("Norm") {

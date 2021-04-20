@@ -87,7 +87,7 @@ template <typename T> void PrintRealMatrix(TriangleMatrix<T>& matrix) {
     cout<<endl;
     for (int i = 0; i < matrix.GetDim(); i++) {
         for (int j = 0; j < matrix.GetDim(); j++) {
-            cout <<setw(9)<<left<< matrix[i][j] << " ";
+            cout <<setw(9)<<left<< matrix.GetElement(i,j) << " ";
         }
         cout<<endl;
     }
@@ -105,7 +105,7 @@ void PrintComplexMatrix(TriangleMatrix<complex>& matrix) {
     cout<<endl;
     for (int i=0; i<matrix.GetDim(); i++) {
         for (int j=0; j<matrix.GetDim(); j++) {
-            matrix[i][j].print();
+            matrix.GetElement(i,j).print();
             cout<<" ";
         }
         cout<<endl;
@@ -237,38 +237,21 @@ void ComplexMatrixOperations(int size, string str){
     }
     else if (ch ==2) {
 
-        cout<<"Do you want to multiply on real or complex number?"<<endl;
-        cout<<"1 - complex"<<endl;
-        cout<<"0- real" << endl;
-        cout<<"Your choice:";
-        int ch2;
-        cin>>ch2;
-        if (ch2 == 1) {
-            complex factor;
-            float re,im;
-            cout<<"real and imag part of factor"<<endl;
-            cin>>re>>im;
-            factor = complex(re,im);
-            TriangleMatrix<complex> matrixR = matrix*factor;
-            cout<<"Multiplicating... Please Wait"<<endl;
-            cout<<"Print matrix? 1 - yes, 0 - no"<<endl;
-            int ch3 = choice();
-            if (ch3==1) {
-                PrintComplexMatrix(matrixR);
-            }
+        cout<<"Set your factor. If you want multiply on complex number just set imag part = 0"<<endl;
+        complex factor;
+        float re,im;
+        cout<<"real and imag part of factor"<<endl;
+        cin>>re>>im;
+        factor = complex(re,im);
+        TriangleMatrix<complex> matrixR = matrix*factor;
+        cout<<"Multiplicating... Please Wait"<<endl;
+        cout<<"Print matrix? 1 - yes, 0 - no"<<endl;
+        int ch3 = choice();
+        if (ch3==1) {
+            PrintComplexMatrix(matrixR);
         }
-        if (ch2 == 0) {
-            float factor;
-            cout<<"Set your factor";
-            cin>>factor;
-            TriangleMatrix<complex> matrixR = matrix*factor;
-            cout<<"Multiplicating... Please Wait"<<endl;
-            cout<<"Print matrix? 1 - yes, 0 - no"<<endl;
-            int ch3 = choice();
-            if (ch3==1) {
-                PrintComplexMatrix(matrixR);
-            }
-        }
+
+
 
     }
     else if (ch == 3) {

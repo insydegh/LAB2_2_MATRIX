@@ -101,9 +101,10 @@ public:
 
     //OPERATORS
 
-    T operator[](const int index) override {
+    virtual T operator[](const int index) override {
         return this->linked_list->Get(index);
     };
+
 
 //DESTRUCTOR
     ~ListSequence() = default;

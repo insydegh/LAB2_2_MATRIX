@@ -128,9 +128,10 @@ public:
 
     //OPERATORS
 
-    T operator[](const int index) override { //++
+   virtual T operator[](const int index) override { //++
         return dynamic_array->Get(index);
     }
+
     //DESTRUCTOR
 
     ~ArraySequence() = default;
