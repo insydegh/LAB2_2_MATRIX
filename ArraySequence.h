@@ -81,25 +81,29 @@ public:
         return this->dynamic_array->Set(index, item);
     };
 
-    void Append(T item) override { //++
-        this->dynamic_array->Resize(this->GetSize()+1);
-        this->dynamic_array->Set(this->GetSize()-1, item);
+    void Append(T item) override { //IMPROVED
+        DynamicArray<T>* newarr = new DynamicArray<T>(this->GetSize()+1);
+        newarr->Set(this->GetSize(), item);
+        for (int i=0; i<this->GetSize(); i++) {
+            newarr->Set(i, this->Get(i));
+        }
+        this->dynamic_array=newarr;
     };
 
     void Prepend(T item) override  { //++
-        DynamicArray<T>* newdynarr = new DynamicArray<T>(this->dynamic_array->GetSize()+1);
+        DynamicArray<T>* newdynarr = new DynamicArray<T>(this->GetSize()+1);
         newdynarr->Set(0, item);
         for (int i=0; i<this->GetSize(); i++) {
-            newdynarr->Set(i+1, this->dynamic_array->Get(i));
+            newdynarr->Set(i+1, this->Get(i));
         }
         this->dynamic_array=newdynarr;
     };
 
     void InsertAt(T item, int index) override { //++
-        if (index<0 || index >=this->dynamic_array->GetSize()) {
+        if (index<0 || index >=this->GetSize()) {
             throw out_of_range(INDEX_OUT_OF_RANGE);
         }
-        int newSize = this->dynamic_array->GetSize()+1;
+        int newSize = this->GetSize()+1;
         DynamicArray<T>* newdynarr = new DynamicArray<T>(newSize);
         int j=0;
         for (int i = 0; i<newSize; ++i) {
@@ -107,7 +111,7 @@ public:
                 newdynarr->Set(i, item);
                 continue;
             }
-            newdynarr->Set(i, this->dynamic_array->Get(j));
+            newdynarr->Set(i, this->Get(j));
             j++;
         }
         dynamic_array = newdynarr;
@@ -115,15 +119,13 @@ public:
     };
 
     ArraySequence<T>* Concat(Sequence<T> *arr) override { //++
-        DynamicArray<T>* array =new DynamicArray<T>(this->dynamic_array->GetSize()+arr->GetSize());
-        ArraySequence<T>* newSequence=new ArraySequence<T>(array);
-        for (int i = 0; i<this->dynamic_array->GetSize(); i++) {
-            newSequence->dynamic_array->Set(i,this->dynamic_array->Get(i));}
+        ArraySequence<T>* newSequence=new ArraySequence<T>;
+        for (int i = 0; i<this->GetSize(); i++) {
+            newSequence->Append(this->Get(i));}
         for (int i=0;i<arr->GetSize();i++){
-            newSequence->dynamic_array->Set(i+this->dynamic_array->GetSize(),arr->Get(i));
+            newSequence->Append(arr->Get(i));
         }
         return newSequence;
-
     };
 
     //OPERATORS
