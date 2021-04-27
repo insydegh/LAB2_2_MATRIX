@@ -20,7 +20,6 @@ public:
     DynamicArray();
     DynamicArray(int size);
     DynamicArray(T* items, int size);
-    DynamicArray(const DynamicArray<T>& array, int size);
     DynamicArray(const DynamicArray<T>& array);
 
     //Decomposition
@@ -30,6 +29,7 @@ public:
     //Operations
     void Set(int index, T value);
     void Resize(int size);
+
 
     //Operators
     T operator[](const int index); //+
@@ -64,7 +64,7 @@ template<typename T> DynamicArray<T>::DynamicArray(T* items, int size) : Dynamic
     }
 }
 
-template<typename T> DynamicArray<T>::DynamicArray(const DynamicArray<T> &array, int size) : DynamicArray(size) {
+template<typename T> DynamicArray<T>::DynamicArray(const DynamicArray<T> &array) : DynamicArray(array.size) {
     if (size > array.size || size<0) {
         throw out_of_range(INDEX_OUT_OF_RANGE);
     }
@@ -72,8 +72,6 @@ template<typename T> DynamicArray<T>::DynamicArray(const DynamicArray<T> &array,
     for (int i = 0; i < array.size; i++)
         this->data[i] = array.data[i];
 }
-
-template <typename T> DynamicArray<T>::DynamicArray(const DynamicArray<T>& array) : DynamicArray(array.data, array.size) {}
 
 //DECOMPOSITION
 
@@ -130,4 +128,6 @@ template<typename T> bool DynamicArray<T>::operator==(const DynamicArray<T> &arr
     }
     return true;
 }
+
+
 
