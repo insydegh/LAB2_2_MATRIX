@@ -1,4 +1,4 @@
-/*
+
 #include <iostream>
 
 #define CATCH_CONFIG_MAIN
@@ -80,6 +80,7 @@ TEST_CASE( "DYNAMIC ARRAY TESTS", "[DynamicArray]" ) {
         // elements { 1 2 3  }
         // index      0 1 2
     }
+
 
     SECTION("Operator []") {
         DynamicArray<int> array = DynamicArray<int>(ptr, 5);
@@ -637,9 +638,6 @@ TEST_CASE("Matrix norm for complex", "[Matrix_complex]"){
     ArraySequence<complex> seq_c = ArraySequence<complex>(c_ptr,6);
     TriangleMatrix<complex> matrixC = TriangleMatrix<complex>(seq_c, 3, "upper");
     complex norm = matrixC.MatrixNorm<complex>();
-    REQUIRE(norm.real()==static_cast<float>(2.58846));
-    REQUIRE(norm.imag()==static_cast<float>(4.32985));
+    REQUIRE(static_cast<float>(norm.real())-(static_cast<float>(2.58846))<=std::numeric_limits<float>::epsilon());
+    REQUIRE(static_cast<float>(norm.imag())-(static_cast<float>(4.32985))<= std::numeric_limits<float>::epsilon());
 }
-
-
-*/
