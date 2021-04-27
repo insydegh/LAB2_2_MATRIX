@@ -196,14 +196,15 @@ template<typename T> void LinkedList<T>::RemoveAt(int index) {
     }
 }
 
-template<typename T> LinkedList<T> *LinkedList<T>::Concat(LinkedList<T> *list) {
+template<typename T> LinkedList<T> *LinkedList<T>::Concat(LinkedList<T> *list) { //IMPROVED
     LinkedList<T>* result = new LinkedList<T>();
-    for (int i = 0; i<this->GetLength(); i++) {
-        result->Append(this->Get(i));
+    result->head=this->head;
+    Node* temp = this->head;
+    for (int i=0; i<this->size-1; i++) {
+        temp = temp->pnext;
     }
-    for (int i = 0; i<list->GetLength(); i++) {
-        result->Append(list->Get(i));
-    }
+    result->size=this->size+list->size;
+    temp->pnext =list->head;
     return result;
 }
 
